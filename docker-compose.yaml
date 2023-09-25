@@ -4,13 +4,19 @@ services:
   phonebook-mysql:
     container_name: phonebook-mysql
     image: localhost:5000/mysql
-    restart: always
-
+    networks:
+      - backend
+    deploy:
+      placement:
+        constraints: [node.role == manager]
   phonebook-app:
     container_name: phonebook-app
     image: localhost:5000/myapp
-    depends_on:
-      - phonebook-mysql
     ports:
       - "8181:8181"
-    restart: always
+    depends_on:
+      - phonebook-mysql
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
