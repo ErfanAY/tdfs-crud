@@ -18,4 +18,6 @@ jobs:
             git clone https://github.com/ErfanAY/tdfs-crud.git
             cd tdfs-crud
             sudo docker build -t localhost:5000/mysql --target img1 .
-            sudo docker build -t localhost:5000/mysql --target img2 .
+            sudo docker build -t localhost:5000/myapp --target img2 .
+            sudo docker push localhost:5000/mysql
+            sudo docker push localhost:5000/myapp
