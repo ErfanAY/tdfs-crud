@@ -15,6 +15,9 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             sudo rm -rf tdfs-crud
+            sudo docker service rm $(docker service ls -q)
+            sudo docker image rm -f localhost:5000/mysql
+            sudo docker image rm -f localhost:5000/myapp
             cd ~
             git clone https://github.com/ErfanAY/tdfs-crud.git
             cd tdfs-crud
@@ -30,6 +33,7 @@ jobs:
           password: ${{ secrets.PASSWORDW }}
           port: ${{ secrets.PORTW }}
           script: |
+            sudo docker image prune -a --force
             sudo docker pull 37.152.189.191:5000/mysql
             sudo docker pull 37.152.189.191:5000/myapp
             sudo docker tag 37.152.189.191:5000/mysql localhost:5000/mysql
