@@ -1,0 +1,2 @@
+manager ansible_host=37.152.189.191 ansible_connection=ssh ansible_user=ubuntu ansible_ssh_pass=hVflukHkEs1
+worker1 ansible_host=37.152.187.136 ansible_connection=ssh ansible_user=ubuntu ansible_ssh_pass=MGdlMsxNar1
