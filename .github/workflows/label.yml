@@ -15,7 +15,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             sudo rm -rf tdfs-crud
-            sudo docker service rm $(docker service ls -q)
+            sudo docker stack rm tdfs
             sudo docker image rm -f localhost:5000/mysql
             sudo docker image rm -f localhost:5000/myapp
             cd ~
