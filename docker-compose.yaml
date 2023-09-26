@@ -2,13 +2,11 @@ version: '3'
 
 services:
   phonebook-mysql:
-    container_name: phonebook-mysql
     image: localhost:5000/mysql
     deploy:
       placement:
         constraints: [node.role == manager]
   phonebook-app:
-    container_name: phonebook-app
     image: localhost:5000/myapp
     ports:
       - "8181:8181"
