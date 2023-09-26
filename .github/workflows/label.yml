@@ -1,0 +1,48 @@
+name: Flask Auto-Deploy
+
+on: [push]
+
+jobs: 
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: rebuild and push new version
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd ~
+            git clone https://github.com/ErfanAY/tdfs-crud.git
+            cd tdfs-crud
+            sudo docker build -t localhost:5000/mysql --target img1 .
+            sudo docker build -t localhost:5000/mysql --target img2 .
+            sudo docker push localhost:5000/mysql
+            sudo docker push localhost:5000/myapp
+            
+      - name: pull from manager in worker
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOSTW }}
+          username: ${{ secrets.USERNAMEW }}
+          password: ${{ secrets.PASSWORDW }}
+          port: ${{ secrets.PORTW }}
+          script: |
+            sudo docker pull 37.152.189.191:5000/mysql
+            sudo docker pull 37.152.189.191:5000/myapp
+            sudo docker tag 37.152.189.191:5000/mysql localhost:5000/mysql
+            sudo docker tag 37.152.189.191:5000/myapp localhost:5000/myapp
+
+      - name: final deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd ~/tdfs-crud
+            sudo docker-compose up -d
+            
