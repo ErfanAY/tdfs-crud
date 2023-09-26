@@ -4,8 +4,6 @@ services:
   phonebook-mysql:
     container_name: phonebook-mysql
     image: localhost:5000/mysql
-    networks:
-      - backend
     deploy:
       placement:
         constraints: [node.role == manager]
