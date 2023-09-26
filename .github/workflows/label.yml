@@ -33,3 +33,14 @@ jobs:
             sudo docker pull 37.152.189.191:5000/myapp
             sudo docker tag 37.152.189.191:5000/mysql localhost:5000/mysql
             sudo docker tag 37.152.189.191:5000/myapp localhost:5000/myapp
+
+      - name: final deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd ~/tdfs-crud
+            sudo docker-compose up -d
