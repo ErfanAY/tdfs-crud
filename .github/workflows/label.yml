@@ -44,4 +44,4 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd ~/tdfs-crud
-            docker stack deploy --compose-file docker-compose.yaml tdfs
+            sudo docker stack deploy --compose-file docker-compose.yaml tdfs
